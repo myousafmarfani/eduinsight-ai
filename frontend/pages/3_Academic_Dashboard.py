@@ -5,7 +5,10 @@ import pandas as pd
 import streamlit as st
 import ui
 
-from frontend.components import charts, metrics, resource_cards
+try:
+    from components import charts, metrics, resource_cards
+except ModuleNotFoundError:
+    from frontend.components import charts, metrics, resource_cards
 
 ui.setup("Academic Dashboard")
 student = ui.require_student()

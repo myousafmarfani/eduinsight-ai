@@ -129,6 +129,9 @@ fabricated. In-progress responses never include answers or explanations. Errors 
 
 ## Troubleshooting
 - *"Cannot reach the backend"*: start uvicorn first, from the project root; check `API_BASE_URL` in `.env`.
+- On Streamlit Cloud, add this to the app's **Settings > Secrets** (TOML format), then reboot the app:
+  `API_BASE_URL = "https://your-backend.fastapicloud.dev"`. This is a frontend setting; adding it
+  only to FastAPI Cloud does not configure Streamlit.
 - `.env` is read when the backend starts; restart uvicorn after changing it. In PowerShell, an explicit
   `$env:LLM_MODEL` (or other environment variable) overrides the value in `.env`.
 - A `503 Provider returned error` from a `:free` OpenRouter model is an upstream provider outage. The backend logs
