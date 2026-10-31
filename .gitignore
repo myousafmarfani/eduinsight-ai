@@ -1,0 +1,13 @@
+venv/
+.venv/
+__pycache__/
+*.pyc
+.env
+*.db
+.pytest_cache/
+storage/uploads/*
+storage/reports/*
+storage/charts/*
+!storage/*/.gitkeep
+.idea/
+.vscode/
