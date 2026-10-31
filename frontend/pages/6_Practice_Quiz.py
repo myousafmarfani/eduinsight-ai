@@ -8,7 +8,11 @@ try:
 except ModuleNotFoundError:
     from frontend import api_client as api
     from frontend import ui
-from frontend.components import quiz as quiz_ui
+
+try:
+    from components import quiz as quiz_ui
+except ModuleNotFoundError:
+    from frontend.components import quiz as quiz_ui
 
 ui.setup("Practice Quiz")
 student = ui.require_student()
