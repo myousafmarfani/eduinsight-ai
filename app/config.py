@@ -4,12 +4,8 @@ from __future__ import annotations
 from functools import lru_cache
 from pathlib import Path
 
-from dotenv import load_dotenv
 from pydantic import field_validator
 from pydantic_settings import BaseSettings, SettingsConfigDict
-
-load_dotenv()  # load .env file if present, so env vars can be overridden in the shell
-import os
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -25,16 +21,16 @@ class Settings(BaseSettings):
     )
 
     # LLM
-    openrouter_api_key: str = os.environ.get("OPENROUTER_API_KEY", "")
+    openrouter_api_key: str = ""
     openrouter_base_url: str = "https://openrouter.ai/api/v1"
     openrouter_site_url: str = ""   # optional, shown on OpenRouter rankings
     openrouter_app_name: str = "Student Feedback Agent"
-    llm_model: str = os.environ.get("LLM_MODEL", "recursive/flint-v1.0:free")
+    llm_model: str = "recursive/flint-v1.0:free"
     llm_temperature: float = 0.2
     llm_timeout_seconds: int = 60
 
     # Tavily
-    tavily_api_key: str = os.environ.get("TAVILY_API_KEY", "")
+    tavily_api_key: str = ""
     tavily_timeout_seconds: int = 20
     max_resource_subjects: int = 3
     max_results_per_search: int = 4

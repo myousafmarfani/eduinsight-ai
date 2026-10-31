@@ -68,6 +68,44 @@ to PATH) in addition to `pytesseract`. Without it, PDFs with a text layer and CS
 ```
 API docs: http://127.0.0.1:8000/docs - Frontend: http://localhost:8501
 
+## Deploy with FastAPI Cloud
+
+The FastAPI CLI entry point is configured in `pyproject.toml` as `app.main:app`. From
+PowerShell at the project root, run:
+
+```powershell
+# Activate the existing virtual environment
+.\.venv\Scripts\Activate.ps1
+
+# Install the deployment CLI and project dependencies
+uv pip install -r requirements.txt --python .venv\Scripts\python.exe
+
+# Configure production values before deploying. Do not commit .env.
+Copy-Item .env.example .env
+# Edit .env and set OPENROUTER_API_KEY, TAVILY_API_KEY, DATABASE_URL,
+# CORS_ORIGINS, and any other production settings that apply.
+
+# Verify the application locally
+python -m fastapi run
+
+# Authenticate with FastAPI Cloud (opens a browser)
+fastapi login
+
+# Deploy the configured app
+fastapi deploy
+```
+
+For a clean environment, create it first with:
+
+```powershell
+uv venv .venv
+uv pip install -r requirements.txt --python .venv\Scripts\python.exe
+.\.venv\Scripts\Activate.ps1
+```
+
+SQLite is included for local development, but a cloud deployment should use a
+production database URL and storage service appropriate for the deployment platform.
+
 Try it: create a student, then on **Marks** upload `sample_data/sample_marksheet.csv` (3 exams, 7 subjects), save, and open the dashboard.
 
 CSV/Excel layout: one row per subject per exam with columns `subject, obtained, total` (optional `exam, exam_type, grade`).

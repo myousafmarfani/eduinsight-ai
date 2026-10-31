@@ -5,10 +5,25 @@ import os
 from typing import Any
 
 import requests
+import streamlit as st
 from dotenv import load_dotenv
+from streamlit.errors import StreamlitSecretNotFoundError
 
 load_dotenv()
-API_BASE_URL = os.getenv("API_BASE_URL", "http://127.0.0.1:8000").rstrip("/")
+
+
+def _api_base_url() -> str:
+    """Read the backend URL from the process environment or Streamlit secrets."""
+    value = os.getenv("API_BASE_URL")
+    if not value:
+        try:
+            value = st.secrets.get("API_BASE_URL")
+        except StreamlitSecretNotFoundError:
+            value = None
+    return str(value or "http://127.0.0.1:8000").rstrip("/")
+
+
+API_BASE_URL = _api_base_url()
 
 
 class ApiError(Exception):
@@ -196,4 +211,3 @@ def analytics_pivot(student_id: str, index: str, columns: str, values: str, aggf
 
 def analytics_export(student_id: str, file_format: str = "xlsx") -> bytes:
     return _request("GET", f"/students/{student_id}/analytics/export/?format={file_format}").content
-

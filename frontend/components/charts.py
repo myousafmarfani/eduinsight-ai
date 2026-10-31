@@ -3,8 +3,12 @@ from __future__ import annotations
 
 from typing import Any
 
-import api_client as api
 import streamlit as st
+
+try:
+    import api_client as api
+except ModuleNotFoundError:
+    from frontend import api_client as api
 
 try:
     import plotly.graph_objects as go
